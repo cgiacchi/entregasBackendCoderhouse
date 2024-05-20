@@ -1,0 +1,23 @@
+<h1>Bienvenido al chat!!</h1>
+<div id="chat-container">
+  <h4 id="user">Username</h4>
+  <div id="chat-message">
+    <div class="message-send">
+      <p id="messages"> </p>
+    </div>
+  </div>
+  <form id="form">            
+    <label for="user"> Usuario </label>
+    <input type="text" name="user" id="user">
+    <label for="message"> Mensaje </label>
+    <input type="text" name="message" id="message">           
+    <button type="submit" id="btn-send">Send</button>
+  </form>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+<script src="/socket.io/socket.io.js"></script>
+<script src="../public/js/messages.js"></script>
+
+
+
