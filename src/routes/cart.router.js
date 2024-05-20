@@ -4,18 +4,22 @@ const cartManager = new CartManager();
 const router = Router();
 
 router.get('/', async (req, res) => {
-    const result = await cartManager.checkCarts();
+    const result = await cartManager.getCarts();
     res.send({ result: "success", payload: result })
 })
 
 router.get('/:cid', async (req, res) => {
     let { cid } = req.params;
-    const result = await cartManager.getCartById(cid);
-    res.send({ result: "success", payload: result })
+    const result = await cartManager.getCartById({_id : cid});
+    if (!cart) {
+        res.status(400).json({ message: "Producto no encontrado" });
+    } else{
+        res.send({ result: "success", payload: result })
+}
 })
 
 router.post('/', async (req, res) => {
-    const result = await cartManager.addCart();
+    const result = await cartManager.addCart();    
     res.send({ result: "success", payload: result });
 })
 

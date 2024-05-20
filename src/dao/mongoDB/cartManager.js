@@ -6,8 +6,9 @@ class CartManager {
             const cart = {products: []};
             let result = await cartModel.create(cart)
             return result;
-        } catch (error) {
-            console.log(error);
+        }  catch (err) {
+            console.error("Error al crear el carrito:", err.message);
+            return err;
         }
     }
 
@@ -15,17 +16,19 @@ class CartManager {
         try {
             let result = await cartModel.findOne(findId);
             return result;
-        } catch (error) {
-            console.log(error);
+        } catch (err) {
+            console.error("Error al obtener el carrito:", err.message);
+            return err;
         }
     }
 
     async getCarts() {
         try {
-            let carts = await cartModel.find()
-            return carts;
-        } catch (error) {
-            console.log(error)
+            let result = await cartModel.find()
+            return result;
+        } catch (err) {
+            console.error("Error al obtener el carrito:", err.message);
+            return err;
         }
     }
 
@@ -44,17 +47,19 @@ class CartManager {
             }
             let result = await cartModel.updateOne({ _id: cid }, cartToUpdate)
             return result;
-        } catch (error) {
-            console.log(error)
+        }  catch (err) {
+            console.error("Error al actualizar el carrito:", err.message);
+            return err;
         }
     }
 
-    async deleteCart(id) {
+    async deleteCart(id) {  
         try {
             let result = await cartModel.deleteOne({ _id: id })
             return result;
-        } catch (error) {
-            console.log(error)
+        }  catch (err) {
+            console.error("Error al eliminar el carrito:", err.message);
+            return err;
         }
     }
 }

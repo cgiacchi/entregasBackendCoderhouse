@@ -1,4 +1,4 @@
-socket = io()
+const socket = io()
 
 const listMessages = document.getElementById('messages')
 

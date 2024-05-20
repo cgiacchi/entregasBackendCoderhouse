@@ -15,11 +15,26 @@ router.get('/:pid', async (req, res) => {
 })
 
 router.post('/', async (req, res) => {
-    let { title, description, category, price, thumbnail, stock} = req.body
+    let { 
+        title,
+        description,
+        category, 
+        price, 
+        thumbnail, 
+        stock
+    } = req.body
     if (!title || !description || !category ||  !price || ! thumbnail || !stock ) {
         res.send({ status: "error", error: "Faltan parametros" })
     }
-    const result = await productManager.addProduct(title, description, category, price, thumbnail, stock);
+    const newProduct = { 
+        title,
+        description,
+        category, 
+        price, 
+        thumbnail, 
+        stock
+    }
+    const result = await productManager.addProduct(newProduct);
     res.send({ result: "success", payload: result });
 })
 

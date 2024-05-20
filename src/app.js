@@ -39,13 +39,13 @@ const socketServer = new Server(httpServer);
 
 socketServer.on('connection', socket => {
     console.log("Cliente conectado");
-    messageManager.checkMessages().then(messages => {
+    messageManager.getMessages().then(messages => {
         socketServer.emit('messages', messages)
     })
 
     socket.on('addMessage', (data)=> {
         messageManager.addMessage( data.user, data.message).then(() => {
-            messageManager.checkMessages().then(messages => {
+            messageManager.getMessages().then(messages => {
                 socketServer.emit('messages', messages)
             })
         })
