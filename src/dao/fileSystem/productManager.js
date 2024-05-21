@@ -1,6 +1,6 @@
 import { response } from "express";
 import { promises as fs } from "fs";
-import { v4 as uuidv4 } from "uuid";
+// import { v4 as uuidv4 } from "uuid";
 
 export class ProductManager {
     constructor() {
@@ -10,24 +10,24 @@ export class ProductManager {
     addProduct = async ({
     title,
     description,
-    category,
     price,
     thumbnail,
     code,
     stock,
     status,
+    category,
     }) => {
     const id = uuidv4();
     let newProduct = {
         id,
         title,
         description,
-        category,
         price,
         thumbnail,
         code,
         stock,
         status,
+        category,
     };
     this.products = await this.getProducts();
     this.products.push(newProduct);

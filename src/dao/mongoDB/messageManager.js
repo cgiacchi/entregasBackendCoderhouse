@@ -1,18 +1,21 @@
 import messageModel from "../models/message.model.js";
 
 class MessageManager {
-    async addMessage(user, message) {
-        try{
-            let result = await messageModel.create({user, message })
-            return result;
-            } catch (error) {
-                console.log(error);
-            }
-    }
-
-    async getMessageById(findId) {
+    async addMessage(user, message) {   
         try {
-            let result = await messageModel.findOne(findId);
+        if ((!user, !message))
+            throw new Error("Completa todos los campos requeridos");
+        let result = await messageModel.create({ user, message });
+        return result;
+        } catch (error) {
+        throw new Error("Error al crear un nuevo mensaje");
+        }
+    };
+
+
+    async getMessageById(id) {
+        try {
+            let result = await messageModel.findOne({_id:id});
             return result;
         } catch (error) {
             console.log(error);
@@ -21,12 +24,13 @@ class MessageManager {
 
     async getMessages() {
         try {
-            let messages = await messageModel.find()
-            return messages;
+            let message = await messageModel.find({}).lean();
+            if (message.lenght === 0) throw new Error("Mensaje no encontrado");
+            return message;
         } catch (error) {
-            console.log(error)
+            throw new Error("Error al recibir mensaje");
         }
-    }
+    };
 
 
     async updateMessage(id, messageUpdate) {
@@ -46,6 +50,7 @@ class MessageManager {
                 console.log(error);
             }
     }
+
 }
 
 export default MessageManager;

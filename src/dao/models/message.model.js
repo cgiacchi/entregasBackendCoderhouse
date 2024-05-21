@@ -1,11 +1,12 @@
-import mongoose from 'mongoose';
+import mongoose from "mongoose";
 
-const messageCollection = "Mensaje";
+const messageCollection = "Mensajes"
+
 const messageSchema = new mongoose.Schema({
-    usuario: {type: String, required: true, max:100},
-    message: {type: String, required: true},
+    user: { type: String, required: true, max: 100 },
+    message: { type: String, required: true }
 })
 
-const messageModel = mongoose.model(messageCollection, messageSchema);
+const messageModel = mongoose.model(messageCollection, messageSchema)
 
-export default messageModel;
+export default messageModel

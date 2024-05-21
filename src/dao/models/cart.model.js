@@ -1,7 +1,6 @@
 import mongoose from "mongoose";
 
 const cartCollection = "Carrito"
-
 const cartSchema = new mongoose.Schema({
     products: {
       type:[
@@ -9,9 +8,9 @@ const cartSchema = new mongoose.Schema({
           id: {type: String},
           quantity: {type: Number},
         },
-      ]}
+      ] 
+    }
 })
-
 const cartModel = mongoose.model(cartCollection, cartSchema)
 
 export default cartModel

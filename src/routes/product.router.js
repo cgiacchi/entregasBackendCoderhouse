@@ -1,5 +1,6 @@
 import { Router } from "express";
 import ProductManager from "../dao/mongoDB/productManager.js";
+
 const productManager = new ProductManager();
 const router = Router();
 
@@ -15,36 +16,21 @@ router.get('/:pid', async (req, res) => {
 })
 
 router.post('/', async (req, res) => {
-    let { 
-        title,
-        description,
-        category, 
-        price, 
-        thumbnail, 
-        stock
-    } = req.body
-    if (!title || !description || !category ||  !price || ! thumbnail || !stock ) {
+    let { title, description, price, thumbnail, category, code, stock, status} = req.body
+    if (!title || !description || !price || ! thumbnail || !category || !code || !stock || !status) {
         res.send({ status: "error", error: "Faltan parametros" })
     }
-    const newProduct = { 
-        title,
-        description,
-        category, 
-        price, 
-        thumbnail, 
-        stock
-    }
-    const result = await productManager.addProduct(newProduct);
+    const result = await productManager.addProduct( title, description, price, thumbnail, category, code, stock, status);
     res.send({ result: "success", payload: result });
 })
 
 router.put('/:pid', async (req, res) => {
     let { pid } = req.params
-    let productUpdate = req.body
-    if (!productUpdate.title || !productUpdate.description || !productUpdate.category || !productUpdate.price || !productUpdate.thumbnail || !productUpdate.stock ) {
+    let pUpdate = req.body
+    if (!pUpdate.title || !pUpdate.description || !pUpdate.price || !pUpdate.thumbnail || !pUpdate.category || !pUpdate.code || !pUpdate.stock || !pUpdate.status) {
         res.send({ status: "error", error: "Parametros no definidos" })
     }
-    const result = await productManager.updateProducts(pid, productUpdate);
+    const result = await productManager.updateProduct(pid,pUpdate);
     res.send({ result: "success", payload: result });
 })
 

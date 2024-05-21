@@ -1,5 +1,9 @@
 const socket = io()
+const chatBox = document.getElementById("chat-box");
+const inputMessage = document.getElementById("message");
 
+
+    
 const listMessages = document.getElementById('messages')
 
 const btnSend = document.getElementById('btn-send')
@@ -12,10 +16,11 @@ btnSend.addEventListener('click', () => {
 })
 
 socket.on('messages', messages => {
-    listMessages.innerHTML = ``;
+    listMessages.innerHTML +=``;
     messages.forEach(message => {
         const newMessage = document.createElement('li');
-        newMessage.innerHTML = `<b>Usuario: </b>${message.user}, <b>Mensaje: </b>${message.message}`;
+        newMessage.innerHTML = `<strong>Usuario: </strong>${message.user}, <strong>Mensaje: </strong>${message.message}`;
         listMessages.appendChild(newMessage);
     });
 })
+

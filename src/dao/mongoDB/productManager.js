@@ -1,21 +1,43 @@
 import productModel from "../models/product.model.js";
 
 class ProductManager {
-    async addProduct(title, description, category, price, thumbnail, code, stock) {
+    async addProduct(product) {
         try{
-        let result = await productModel.create({ title, description, category, price, thumbnail, code, stock})
+            const {
+                title,
+                description,
+                price,
+                thumbnail,
+                code,
+                stock,
+                status = true,
+                category,
+            } = product;
+            if (
+                !title ||
+                !description ||
+                !price ||
+                !thumbnail ||
+                !code ||
+                !stock ||
+                !status ||
+                !category
+            ) throw new Error("Completa todos los campos requeridos");
+
+        let result = await productModel.create(product)
         return result;
         } catch (error) {
-            console.log(error);
+            throw new Error(error.message);
         }
     }
 
-    async getProductById(findPid) {
+    async getProductById(id) {
         try {
-            let result = await productModel.findOne(findPid);
+            let result = await productModel.findOne({_id:id});
+            if (!result) throw new Error("Producto no encontrado");
             return result;
         } catch (error) {
-            console.log(error);
+            throw new Error(error.message);
         }
     }
 
@@ -24,13 +46,25 @@ class ProductManager {
             let products = await productModel.find()
             return products;
         } catch (error) {
-            console.log(error)
+            throw new Error(error.message);
         }
     }
 
-    async updateProducts(id, productUpdate) {
-        try{
-        let result = await productModel.updateOne({ _id: id }, productUpdate);
+
+    async updateProduct(id, product) {
+        try{     
+        const {
+        title,
+        description,
+        price,
+        thumbnail,
+        code,
+        stock,
+        status = true,
+        category,
+        } = product;
+
+        let result = await productModel.updateOne({ _id: id }, product);
         return result;
         } catch (error) {
             console.log(error);
@@ -40,9 +74,10 @@ class ProductManager {
     async deleteProduct(id) {
         try{
         let result = await productModel.deleteOne({ _id: id });
-        return result;
+        if (!result) throw new Error("Producto no encontrado");
+        return "Producto eliminado con exito";
         } catch (error) {
-            console.log(error);
+            throw new Error(error.message);
         }
     }
 }
