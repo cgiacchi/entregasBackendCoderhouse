@@ -8,20 +8,20 @@ class ProductManager {
                 description,
                 price,
                 thumbnail,
+                category,
                 code,
                 stock,
                 status = true,
-                category,
             } = product;
             if (
                 !title ||
                 !description ||
                 !price ||
                 !thumbnail ||
+                !category ||
                 !code ||
                 !stock ||
-                !status ||
-                !category
+                !status
             ) throw new Error("Completa todos los campos requeridos");
 
         let result = await productModel.create(product)
@@ -58,10 +58,10 @@ class ProductManager {
         description,
         price,
         thumbnail,
+        category,
         code,
         stock,
         status = true,
-        category,
         } = product;
 
         let result = await productModel.updateOne({ _id: id }, product);
