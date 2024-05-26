@@ -1,12 +1,14 @@
 
-import express from 'express'
-import mongoose from 'mongoose'
+import express from 'express';
+import mongoose from 'mongoose';
 import __dirname from './utils.js';
 import handlebars from 'express-handlebars';
 import { Server } from 'socket.io';
-import cartRouter from './routes/cart.router.js'
+import cartRouter from './routes/cart.router.js';
 import messageRouter from './routes/message.router.js'
 import productRouter from './routes/product.router.js'
+import viewsRouter from './routes/views.router.js';
+
 
 import dotenv from 'dotenv'
 
@@ -29,6 +31,8 @@ app.use(express.static(__dirname + '/public'));
 app.use('/api/carts', cartRouter)   
 app.use('/api/messages', messageRouter)
 app.use('/api/products', productRouter)
+app.use('/api/views', viewsRouter)
+
 
 
 const httpServer = app.listen(PORT, console.log(`Server running on port ${PORT}`));

@@ -3,7 +3,7 @@ import cartModel from "../models/cart.model.js";
 class CartManager {
     async createCart() {
         try {
-            const newCart = await CartModel.create({ products: [] });
+            const newCart = await cartModel.create({ products: [] });
             return newCart;
         } catch (error) {
             throw new Error(error.message);
@@ -12,8 +12,8 @@ class CartManager {
 
     async getCartById(id) {
         try {
-            let product = await cartModel.findOne({ _id: id });
-            return product;
+            let result = await cartModel.findOne({ _id:id}).populate("products.product");
+            return result;
         } catch (error) {
             throw new Error(error.message);
         }
@@ -56,6 +56,43 @@ class CartManager {
             return result;
         } catch (error) {
             console.log(error)
+        }
+    }
+
+
+    async deleteProductsCart(cid){
+        try {
+            let cart = await cartModel.findOne({ _id: cid });
+            cart.products = [];
+            let result = await cartModel.updateOne({ _id: cid }, cart)
+            return result;
+        } catch (error) {
+            console.log(error)
+        }
+    }
+
+    async deleteProductCart(cid, pid) {
+        try {
+            let cart = await cartModel.findOne({ _id: cid });
+            let products = cart.products;
+            let iProductToDelete = products.indexOf(p => p.id == pid);
+            cart.products.splice(iProductToDelete,1);
+            let result = await cartModel.updateOne({ _id: cid }, cart)
+            return result;
+        } catch (error) {
+            console.log(error)
+        }
+    }
+    async updateProductQuantity(cart, product, quantity) {
+        try {
+            const productIndex = cart.products.findIndex(p => p.product._id.toString() === product._id.toString());
+            if (productIndex === -1) {
+                return null;
+            }
+            cart.products[productIndex].quantity = quantity;
+            return await cartModel.findByIdAndUpdate(cart._id, { products: cart.products }, { new: true });
+        } catch (error) {
+            throw error;
         }
     }
 }

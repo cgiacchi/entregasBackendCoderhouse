@@ -24,7 +24,7 @@ class ProductManager {
                 !status
             ) throw new Error("Completa todos los campos requeridos");
 
-        let result = await productModel.create(product)
+        let result = await productModel.create(product);
         return result;
         } catch (error) {
             throw new Error(error.message);
@@ -41,15 +41,50 @@ class ProductManager {
         }
     }
 
-    async getProducts() {
+    // async getProducts(queryParams) {
+    //     try {
+    //         const { limit, page, status, category, sort } = queryParams;
+    //         const filter = {};
+    //         if (status !== null) {
+    //             filter.status = status;
+    //         }
+    //         if (category) {
+    //             filter.category = category;
+    //         }
+    //         return await productModel.paginate(filter, { limit, page, sort, lean: true });
+    //     } catch (error) {
+    //         throw error;
+    //     }
+    // }
+
+    
+    async getProducts(query) {
         try {
-            let products = await productModel.find()
+            let { limit, page, sort } = query;
+            if (!limit) {
+                limit = 10;
+            }
+            if (!page) {
+                page = 1;
+            }
+            let sortOptions = {};
+            if (sort) {
+                let order = parseInt(sort);
+                sortOptions = { price: order };
+            }
+            let filterOptions = {};
+            if (query.category) {
+                filterOptions = {category: query.category};
+            }
+            if (query.available) {
+                filterOptions = {available: query.available};
+            }
+            let products = await productModel.paginate(filterOptions, { limit: limit, page: page, sort: sortOptions });
             return products;
         } catch (error) {
-            throw new Error(error.message);
+            console.log(error)
         }
     }
-
 
     async updateProduct(id, product) {
         try{     
